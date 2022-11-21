@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-export async function GetCardsAsync() {
+const base_URL = 'https://api.scryfall.com/cards';
+
+export async function GetCardsAsync(search) {
   return new Promise(() => {
-    axios.get('https://api.scryfall.com/cards/search?order=cmc&q=c%3Ared+pow%3D3')
+    axios.get(base_URL + `/search?q=${search}`)
       .then((response) => {
-        const data = response.data.data;
+        const data = response.data;
         console.log(data);
         return data;
       })
