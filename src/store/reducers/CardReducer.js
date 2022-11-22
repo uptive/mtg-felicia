@@ -1,15 +1,15 @@
-import { SET_QUERY, ADD_CARDS } from '../actionTypes';
+import { SET_QUERY, ADD_CARDS, CLEAR_QUERY } from '../actionTypes';
 
 const initialState = {
   cards: [],
   querys: {
     name: '',
-    // type: '',
-    // cost: undefined,
-    // image: '',
-    // desc: '',
-    // power: undefined,
-    // toughness: undefined,
+    type: '',
+    cost: undefined,
+    image: '',
+    desc: '',
+    power: undefined,
+    toughness: undefined,
   }
 };
 
@@ -21,7 +21,12 @@ const cardsReducer = (state = initialState, action) => {
       };
     case SET_QUERY:
       return {
-        querys: { ...state.querys, action }
+        ...state,
+        querys: action.payload,
+      }
+    case CLEAR_QUERY:
+      return {
+        querys: initialState,
       }
     default:
       return state;

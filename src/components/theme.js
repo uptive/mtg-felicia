@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import '../index.css';
 
 export const Colors = {
   white: '#FFFFFF',
@@ -10,9 +11,17 @@ export const Colors = {
   boxShadow: '#FF1111',
 };
 
+export const Heading = styled.span`
+  color: ${Colors.white};
+  font-size: ${props => props.h1 && '2' || props.h2 && '1'}rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+`;
+
 export const Container = styled.div`
   background-color: ${Colors.lightGray};
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,4 +44,22 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
+export const LoadingSpinner = styled.div`
+  border: 10px solid ${Colors.darkGray};
+  border-left: 10px ${Colors.darkPurple} solid;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  animation: spin 1.5s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
 

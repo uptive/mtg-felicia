@@ -6,13 +6,6 @@ import { GetCardsAsync } from './services/CardService';
 
 function App() {
 
-  const state = useSelector((state) => state);
-  console.log(state);
-
-  // useEffect(() => {
-  //   GetCardsAsync();
-  // }, []);
-
   return (
     <div className="App">
       <Form />

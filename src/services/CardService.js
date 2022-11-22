@@ -12,3 +12,13 @@ export async function GetCardsAsync(search) {
       })
   })
 }
+
+export async function GetRandomCard() {
+  try {
+    const { data: response } = await axios.get(base_URL + '/random')
+    return response;
+  }
+  catch (error) {
+    console.log(error);
+  }
+}

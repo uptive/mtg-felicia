@@ -1,27 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
-import { Container, Colors, Button } from '../theme';
+import { Container, Colors, Button, Heading } from '../theme';
 import { GetCardsAsync } from '../../services/CardService';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_CARDS, SET_QUERY } from '../../store/actionTypes';
 
 const FormContainer = styled.div`
   background-color: ${Colors.lightPurple};
-  padding: 0 1rem 2rem 1rem;
+  padding: 1.5rem;
+  padding-right: 2rem;
   min-width: 30rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
-const FormInputs = styled.form`
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  margin: .3rem 0 0 0;
+const FormInputs = styled.input`
+  padding: .5rem 0;
+  padding-left: .5rem;
+  margin-top: .3rem;
   background-color: ${Colors.lightGray};
-  ${props => props.small && `
-    width: 50%;
-  `}
+  border: none;
+  width: 100%;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const FormSelect = styled.select`
+  padding: .5rem;
+  margin-top: .3rem;
+  background-color: ${Colors.lightGray};
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -35,6 +49,7 @@ const Row = styled.div`
   display: flex;
   gap: ${props => props.gap}rem;
   margin-bottom: 1rem;
+  margin-top: ${props => props.margin}rem;
 `;
 
 const Col = styled.div`
@@ -48,6 +63,8 @@ const Col = styled.div`
 `;
 
 const Label = styled.label`
+  color: ${Colors.white};
+  margin-bottom: .5rem; 
 `;
 
 const ImageDiv = styled.div`
@@ -56,7 +73,7 @@ const ImageDiv = styled.div`
   margin: .3rem 0 0 0;
   background-color: ${Colors.lightGray};
   border: ${Colors.darkGray} solid 1px;
-`
+`;
 
 const ImageButton = styled.button`
   border-radius: 50%;
@@ -73,44 +90,68 @@ const ImageButton = styled.button`
 
 function SearchForm() {
   const dispatch = useDispatch();
+  const query = useSelector(state => state.cards.querys);
+  //Jag behöver göra en lokalt state som jag sedan skickar tillbaka till redux när jag klickar på nästa - på så vis uppdateras hela statet och jag behöver inte göra en för en
+  //Ändra value i alla fält till redux state
+  //Lägg till clear query och påkalla den actionen
+  const initQuerys = {
+    name: '',
+    type: '',
+    cost: undefined,
+    image: '',
+    desc: '',
+    power: undefined,
+    toughness: undefined,
+  };
+  const [newQuery, setNewQuery] = useState(initQuerys);
   const [match, setMatch] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const typeOptions = [
+    { id: 'creature', value: 'Creature' },
+    { id: 'land', value: 'Land' },
+    { id: 'sorcery', value: 'Sorcery' },
+    { id: 'enchantment', value: 'Enchantment' },
+    { id: 'instant', value: 'Instant' }
+  ];
+  const [chosenTypeOption, setChosenTypeOption] = useState();
+  const [card, setCard] = useState();
 
-  const handleSubmit = (values) => {
-    GetCardsAsync(values)
-      .then((response) => {
-        setMatch(response.data);
-        dispatch({
-          type: SET_QUERY,
-          payload: response,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-    console.log(match);
+  const handleSearch = () => {
+    dispatch({
+      type: SET_QUERY,
+      payload: newQuery,
+    })
   };
+
+  const handleSelectChange = (event) => {
+    setChosenTypeOption(event.target.value);
+    newQuery.type = event.target.value;
+    setNewQuery({ ...newQuery });
+  };
+
+  console.log(query);
 
   return (
     <Container>
       <FormContainer>
-        <h1>Search</h1>
+        <Heading h1>Search</Heading>
         <Formik
           initialValues={{ query: '' }}
-          onSubmit={(values, actions) => {
-            handleSubmit(values.query);
-          }}
+
         >
           {props => (
             <div>
-              <Row>
+              <Row margin={2}>
                 <Col size={1}>
                   <Label htmlFor='name'>Name</Label>
                   <FormInputs
                     type='text'
-                    onChange={props.handleChange}
+                    onChange={(event) => {
+                      newQuery.name = event.target.value;
+                      setNewQuery({ ...newQuery });
+                    }}
                     onBlur={props.handleBlur}
-                    value={props.values.query}
+                    value={newQuery.name}
                     name='name'
                   />
                 </Col>
@@ -118,21 +159,22 @@ function SearchForm() {
               <Row gap={2}>
                 <Col size={2}>
                   <Label htmlFor='type'>Type</Label>
-                  <FormInputs
-                    type='select'
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.query}
-                    name='type'
-                  />
+                  <FormSelect placeholder='Choose type' value={newQuery.type} onChange={handleSelectChange}>
+                    {typeOptions.map((option) => (
+                      <option key={option.id} onClick={() => setChosenTypeOption(option.value)}>{option.value}</option>
+                    ))}
+                  </FormSelect>
                 </Col>
                 <Col size={2}>
                   <Label htmlFor='cost'>Cost</Label>
                   <FormInputs
                     type='text'
-                    onChange={props.handleChange}
+                    onChange={(event) => {
+                      newQuery.cost = event.target.value;
+                      setNewQuery({ ...newQuery });
+                    }}
                     onBlur={props.handleBlur}
-                    value={props.values.query}
+                    value={newQuery.cost}
                     name='cost'
                   />
                 </Col>
@@ -151,38 +193,49 @@ function SearchForm() {
                   <Label htmlFor='desc'>Description</Label>
                   <FormInputs
                     type='text'
-                    onChange={props.handleChange}
+                    onChange={(event) => {
+                      newQuery.desc = event.target.value;
+                      setNewQuery({ ...newQuery });
+                    }}
                     onBlur={props.handleBlur}
-                    value={props.values.query}
+                    value={newQuery.desc}
                     name='desc'
                   />
                 </Col>
               </Row>
-              <Row gap={2}>
-                <Col size={2}>
-                  <Label htmlFor='power'>Power</Label>
-                  <FormInputs
-                    type='select'
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.query}
-                    name='power'
-                  />
-                </Col>
-                <Col size={2}>
-                  <Label htmlFor='toughness'>Toughness</Label>
-                  <FormInputs
-                    type='text'
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.query}
-                    name='toughness'
-                  />
-                </Col>
-              </Row>
+              {chosenTypeOption === 'Creature' && (
+                <Row gap={2}>
+                  <Col size={2}>
+                    <Label htmlFor='power'>Power</Label>
+                    <FormInputs
+                      type='number'
+                      onChange={(event) => {
+                        newQuery.power = event.target.value;
+                        setNewQuery({ ...newQuery });
+                      }}
+                      onBlur={props.handleBlur}
+                      value={newQuery.power}
+                      name='power'
+                    />
+                  </Col>
+                  <Col size={2}>
+                    <Label htmlFor='toughness'>Toughness</Label>
+                    <FormInputs
+                      type='number'
+                      onChange={(event) => {
+                        newQuery.toughness = event.target.value;
+                        setNewQuery({ ...newQuery });
+                      }}
+                      onBlur={props.handleBlur}
+                      value={newQuery.toughness}
+                      name='toughness'
+                    />
+                  </Col>
+                </Row>
+              )}
               <ButtonContainer>
                 <Button type='submit' inverted>Clear</Button>
-                <Button type='submit' primary onSubmit={props.handleSubmit}>Search</Button>
+                <Button primary onClick={() => handleSearch()}>Search</Button>
               </ButtonContainer>
               {props.errors.name && <div>{props.errors.name}</div>}
             </div>
