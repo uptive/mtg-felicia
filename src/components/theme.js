@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
 export const Colors = {
-  lightGray: '#F2F3F3',
+  white: '#FFFFFF',
+  lightGray: '#F7F8F8',
   darkGray: '#CDCFCF',
-  primary: '#00A9A5',
-  darkPurple: '#230903',
+  lightPurple: '#9A8C98',
+  blue: '#4A4E69',
+  darkPurple: '#22223B',
   boxShadow: '#FF1111',
 };
 
@@ -21,10 +23,13 @@ export const Button = styled.button`
   padding: .5rem 1.5rem;
   ${props => props.primary && `
     background-color: ${Colors.darkPurple};
-    color: #FFFFFF;
+    color: ${Colors.white};
+    &:hover {
+      background-color: ${Colors.blue};
+    }
   `}
   ${props => props.inverted && `
-    background-color: #FFFFFF;
+    background-color: ${Colors.white};
     border: ${Colors.darkGray} 1px solid;
   `}
   cursor: pointer;

@@ -5,6 +5,8 @@ import { store } from './store/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Error from './routes/Error';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -12,7 +14,12 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<App />} />
+          <Route path='*' element={<Error />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

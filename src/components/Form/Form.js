@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { ADD_CARDS, SET_QUERY } from '../../store/actionTypes';
 
 const FormContainer = styled.div`
-  background-color: #FFFFFF;
+  background-color: ${Colors.lightPurple};
   padding: 0 1rem 2rem 1rem;
   min-width: 30rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -65,11 +65,16 @@ const ImageButton = styled.button`
   border: none;
   background-color: ${Colors.darkPurple};
   color: #FFFFFF;
+  cursor: pointer;
+  &:hover {
+    background-color: ${Colors.blue};
+  } 
 `;
 
 function SearchForm() {
   const dispatch = useDispatch();
   const [match, setMatch] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (values) => {
     GetCardsAsync(values)
