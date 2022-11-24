@@ -6,7 +6,6 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-
 const Error = () => {
   return (
     <Container>

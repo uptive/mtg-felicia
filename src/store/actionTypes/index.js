@@ -2,6 +2,7 @@
 export const ADD_CARDS = 'ADD_CARDS';
 export const GET_CARDS = 'GET_CARDS';
 export const SET_QUERY = 'SET_QUERY';
+export const SET_LOADING = 'SET_LOADING';
 export const CLEAR_QUERY = 'CLEAR_QUERY';
 
 //Actions
@@ -20,6 +21,12 @@ export const getCards = (payload) => {
 export const setQuery = (payload) => {
   return {
     type: SET_QUERY,
+    payload,
+  }
+}
+export const setLoading = (payload) => {
+  return {
+    type: SET_LOADING,
     payload,
   }
 }

@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Error from './routes/Error';
-import Result from './components/Result/Result';
+import ResultPage from './components/Pages/Result/ResultPage';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -18,7 +18,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<App />} />
-          <Route path='/result' element={<Result />} />
+          <Route path='/result' element={<ResultPage />} />
           <Route path='*' element={<Error />} />
         </Routes>
       </BrowserRouter>

@@ -5,15 +5,21 @@ export const Colors = {
   white: '#FFFFFF',
   lightGray: '#F7F8F8',
   darkGray: '#CDCFCF',
-  lightPurple: '#9A8C98',
+  lightPurple: '#533c63',
   blue: '#4A4E69',
   darkPurple: '#22223B',
   boxShadow: '#FF1111',
 };
 
+export const Centered = `
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Heading = styled.span`
   color: ${Colors.white};
-  font-size: ${props => props.h1 && '2' || props.h2 && '1'}rem;
+  font-size: ${props => props.h1 && '2'}rem;
   font-weight: 700;
   margin-bottom: 1rem;
 `;

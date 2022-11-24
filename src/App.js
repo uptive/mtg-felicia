@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import './App.css';
-import Form from './components/Form/Form';
-import { GetCardsAsync } from './services/CardService';
+import FormPage from './components/Pages/Form/FormPage';
 
 function App() {
-
   return (
     <div className="App">
-      <Form />
+      <FormPage />
     </div>
   );
 }
