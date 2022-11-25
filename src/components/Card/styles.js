@@ -30,7 +30,9 @@ export const Image = styled.img`
   height: 100%;
   width: 100%;
   object-fit: cover;
-  
+  ${props => props.template && `
+    filter: grayscale(1);
+  `}
 `;
 
 export const CardType = styled.div`
@@ -43,6 +45,9 @@ export const CardDesc = styled.div`
   padding: .5rem;
   height: 7.5rem;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const CardPower = styled.div`

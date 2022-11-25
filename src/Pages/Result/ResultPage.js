@@ -4,7 +4,7 @@ import { Container, Button, Heading } from '../../components/theme';
 import { useNavigate } from 'react-router-dom';
 import ImageCarousel from '../../components/Carousel/ImageCarousel';
 import { ResultContainer, Label, CardWrap, Row, Col } from './styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Percentage from '../../components/Percentage/Precentage';
 import { GetCardsMatch } from '../../services/CardService';
 import ErrorPage from '../Error/Error';
