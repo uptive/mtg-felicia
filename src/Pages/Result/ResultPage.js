@@ -4,16 +4,18 @@ import { Container, Button, Heading } from '../../components/theme';
 import { useNavigate } from 'react-router-dom';
 import ImageCarousel from '../../components/Carousel/ImageCarousel';
 import { ResultContainer, Label, CardWrap, Row, Col } from './styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Percentage from '../../components/Percentage/Precentage';
 import { GetCardsMatch } from '../../services/CardService';
 import ErrorPage from '../Error/Error';
+import { addCards } from '../../store/actionTypes';
 
 function Result() {
   const navigate = useNavigate();
   const query = useSelector(state => state.form.querys);
   const [cards, setCards] = useState();
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     GetCardsMatch(query)
@@ -31,6 +33,12 @@ function Result() {
         console.log(error)
       })
   }, []);
+
+  useEffect(() => {
+    if (cards && cards.length > 0) {
+      dispatch(addCards(cards));
+    }
+  }, [cards]);
 
   return (
     <>

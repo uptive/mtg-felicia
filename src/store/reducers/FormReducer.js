@@ -18,8 +18,7 @@ const formReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_CARDS:
       return {
-        ...state,
-        cards: [...state.cards, action.payload],
+        cards: action.payload,
       };
     case SET_QUERY:
       return {

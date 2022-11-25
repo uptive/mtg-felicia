@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 import { ImageContainer, ImageWrap, Image, ButtonsContainer, Label } from './styles';
 
-function ImageCarousel({ cards }) {
-  const length = cards?.length;
+function ImageCarousel({ }) {
   const [current, setCurrent] = useState(0);
+  const cardsArray = useSelector(state => state.form.cards);
 
   const checkImage = (card) => {
     if (card.image_uris) {
@@ -22,21 +23,21 @@ function ImageCarousel({ cards }) {
   };
 
   function nextImage() {
-    if (current < cards.length) {
-      setCurrent(current === length - 1 ? 0 : current + 1);
+    if (current < cardsArray.length) {
+      setCurrent(current === cardsArray.length - 1 ? 0 : current + 1);
     }
   }
 
   function prevImage() {
     if (current >= 1) {
-      setCurrent(current === 0 ? length - 1 : current - 1);
+      setCurrent(current === 0 ? cardsArray.length - 1 : current - 1);
     }
   }
 
   return (
     <ImageContainer>
       <div>
-        {cards.map((card, index) => {
+        {cardsArray.map((card, index) => {
           return (
             <ImageWrap current={index === current} key={card.id}>
               <Image src={checkImage(card)} />
@@ -46,7 +47,7 @@ function ImageCarousel({ cards }) {
       </div>
       <ButtonsContainer>
         <FaCaretLeft onClick={() => prevImage()} />
-        <Label>{current + 1}/{cards?.length}</Label>
+        <Label>{current + 1}/{cardsArray?.length}</Label>
         <FaCaretRight onClick={() => nextImage()} />
       </ButtonsContainer>
     </ImageContainer>
