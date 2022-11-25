@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Formik, Field, Form, ErrorMessage, useFormikContext } from 'formik';
+import { Formik, Field, Form, useFormikContext } from 'formik';
 import { Container, Button, Heading } from '../../components/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearQuery } from '../../store/actionTypes';
@@ -10,7 +10,6 @@ import { Col, Row, FormContainer, Label, ImageDiv, Image, ImageButton, ButtonCon
 import './form.css';
 import LoadingPage from '../Loading/Loading';
 import _ from 'lodash';
-import * as Yup from 'yup';
 
 const ImageChild = () => {
   const [randomImage, setRandomImage] = useState();
@@ -48,6 +47,40 @@ const ImageChild = () => {
   )
 }
 
+const ButtonsChild = () => {
+  const formikProps = useFormikContext();
+  const [reset, setReset] = useState();
+  const dispatch = useDispatch();
+
+  const onResetForm = () => {
+    dispatch(clearQuery());
+    setReset(true);
+  };
+
+  useEffect(() => {
+    if (reset) {
+      formikProps.resetForm({
+        values: {
+          name: '',
+          type: '',
+          cost: '',
+          image: '',
+          desc: '',
+          power: '',
+          toughness: '',
+        }
+      })
+    }
+  }, [reset])
+
+  return (
+    <ButtonContainer>
+      <Button inverted type='reset' onClick={() => onResetForm()}>Clear</Button>
+      <Button disabled={!formikProps.values} primary type='submit'>Search</Button>
+    </ButtonContainer>
+  )
+}
+
 function SearchForm() {
   const query = useSelector(state => state.form.querys);
   const isLoading = useSelector(state => state.form.loading);
@@ -61,10 +94,6 @@ function SearchForm() {
     { id: 'instant', value: 'Instant' }
   ];
 
-  const validationSchema = Yup.object({
-    type: Yup.string().required('Type is required')
-  })
-
   return (
     <Container>
       {isLoading ? (
@@ -74,7 +103,13 @@ function SearchForm() {
           <Heading h1>Search</Heading>
           <Formik
             initialValues={{ ...query }}
-            validationSchema={validationSchema}
+            validate={(values) => {
+              let errors = {};
+              if (!values.type) {
+                errors.type = 'You have to choose a type!'
+              }
+              return errors;
+            }}
             onSubmit={(values, { setSubmitting }) => {
               dispatch(setLoading(true))
               setTimeout(() => {
@@ -84,48 +119,30 @@ function SearchForm() {
                 navigate('/result');
               }, 4000);
             }}
-            onReset={(values, actions) => {
-              setTimeout(() => {
-                dispatch(clearQuery(values))
-                actions.resetForm({
-                  values: {
-                    name: '',
-                    type: '',
-                    cost: '',
-                    image: '',
-                    desc: '',
-                    power: '',
-                    toughness: '',
-                  },
-                })
-              }, 1000);
-            }}
           >
-            {({ values }) => (
+            {({ values, errors, touched }) => (
               <Form>
                 <Row margin={2}>
                   <Col size={1}>
                     <Label htmlFor='name'>Name</Label>
                     <Field type="text" name="name" component='input' />
-                    <ErrorMessage name="name" component="div" />
                   </Col>
                 </Row>
                 <Row gap={2}>
                   <Col size={2}>
                     <Label htmlFor='type'>Type</Label>
-                    <Field name='type' as='select' className={values.type === 'Land' ? 'small' : ''} placeholder='Choose type'>
+                    <Field name='type' as='select' className={values.type === 'Land' || values.type === '' ? 'small' : ''} placeholder='Choose type'>
                       <option disabled defaultValue></option>
                       {typeOptions.map((option) => (
                         <option key={option.id} value={option.value}>{option.value}</option>
                       ))}
                     </Field>
-                    <ErrorMessage name="type" component={ErrorMsg} />
+                    {errors.type && touched.type ? <ErrorMsg>{errors.type}</ErrorMsg> : null}
                   </Col>
-                  {values.type !== 'Land' && (
+                  {values.type !== 'Land' && values.type !== '' && (
                     <Col size={2}>
                       <Label htmlFor='cost'>Cost</Label>
                       <Field type="text" name="cost" component='input' />
-                      <ErrorMessage name="cost" component="div" />
                     </Col>
                   )}
                 </Row>
@@ -144,14 +161,11 @@ function SearchForm() {
                     </Col>
                     <Col size={2}>
                       <Label htmlFor='toughness'>Toughness</Label>
-                      <Field type="text" name="tougness" component='input' />
+                      <Field type="text" name="toughness" component='input' />
                     </Col>
                   </Row>
                 )}
-                <ButtonContainer>
-                  <Button inverted type='reset'>Clear</Button>
-                  <Button primary type='submit' >Search</Button>
-                </ButtonContainer>
+                <ButtonsChild />
               </Form>
             )}
           </Formik>

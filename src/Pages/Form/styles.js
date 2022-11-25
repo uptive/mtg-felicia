@@ -67,7 +67,8 @@ export const ImageDiv = styled.div`
   ${props => props.isLoading ?
     `background-color: none; border: none;`
     :
-    `background-color: ${Colors.lightGray};  border: ${Colors.darkGray} solid 1px;`
+    `background-color: ${Colors.lightGray};  
+    border: ${Colors.darkGray} solid 1px;`
   }
   ${Centered}
   object-fit: cover;
@@ -88,7 +89,7 @@ export const ImageButton = styled.button`
   color: #FFFFFF;
   cursor: pointer;
   &:hover {
-    background-color: ${Colors.blue};
+    background-color: ${Colors.hoverPurple};
   } 
   display: flex;
   justify-content: center;

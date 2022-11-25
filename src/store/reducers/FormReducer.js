@@ -33,7 +33,7 @@ const formReducer = (state = initialState, action) => {
       }
     case CLEAR_QUERY:
       return {
-        state: undefined,
+
       }
     default:
       return state;

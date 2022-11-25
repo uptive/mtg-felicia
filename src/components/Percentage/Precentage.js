@@ -14,8 +14,8 @@ const Container = styled.div`
 const Circle = styled.div`
   height: 5rem;
   width: 5rem;
-  background-color: #${props => props.color};
-  color: #${props => props.color === 'FFFFFF' ? '000000' : 'FFFFFF'};
+  background-color: ${props => props.color};
+  color: ${props => props.color === '#FFFFFF' ? '#000000' : '#FFFFFF'};
   ${Centered};
   border-radius: 50%;
 `;
@@ -30,26 +30,22 @@ function Percentage({ cards }) {
 
   const red = array.filter((element) => element === 'R');
   const redPrecentage = Math.round((red.length / cards.length) * 100);
-
   const blue = array.filter((element) => element === 'U');
   const bluePrecentage = Math.round((blue.length / cards.length) * 100);
-
   const black = array.filter((element) => element === 'B');
   const blackPrecentage = Math.round((black.length / cards.length) * 100);
-
   const white = array.filter((element) => element === 'W');
   const whitePrecentage = Math.round((white.length / cards.length) * 100);
-
   const green = array.filter((element) => element === 'G');
   const greenPrecentage = Math.round((green.length / cards.length) * 100);
 
   return (
     <Container>
-      <Circle color='FFFFFF'>{whitePrecentage} %</Circle>
-      <Circle color='429ef5'>{bluePrecentage} %</Circle>
-      <Circle color='000000'>{blackPrecentage} %</Circle>
-      <Circle color='f55442'>{redPrecentage} %</Circle>
-      <Circle color='6dd164'>{greenPrecentage} %</Circle>
+      <Circle color={Colors.white}>{whitePrecentage} %</Circle>
+      <Circle color={Colors.blue}>{bluePrecentage} %</Circle>
+      <Circle color={Colors.black}>{blackPrecentage} %</Circle>
+      <Circle color={Colors.red}>{redPrecentage} %</Circle>
+      <Circle color={Colors.green}>{greenPrecentage} %</Circle>
     </Container>
   )
 };
