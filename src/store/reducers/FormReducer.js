@@ -12,7 +12,6 @@ const initialState = {
     toughness: '',
   },
   loading: false,
-  error: null,
 };
 
 const formReducer = (state = initialState, action) => {

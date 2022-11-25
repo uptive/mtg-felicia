@@ -21,3 +21,8 @@ select {
     outline: none;
   }
 }
+
+.small {
+  display: flex;
+  width: 50%;
+}

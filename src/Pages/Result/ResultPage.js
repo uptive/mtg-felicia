@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import Card from '../../Card/Card';
-import { Container, Button, LoadingSpinner, Heading } from '../../theme';
+import Card from '../../components/Card/Card';
+import { Container, Button, Heading } from '../../components/theme';
 import { useNavigate } from 'react-router-dom';
-import ImageCarousel from './ImageCarousel';
+import ImageCarousel from '../../components/Carousel/ImageCarousel';
 import { ResultContainer, Label, CardWrap, Row, Col } from './styles';
-import { useDispatch, useSelector } from 'react-redux';
-import Percentage from './Precentage';
-import { addCards } from '../../../store/actionTypes';
-import { GetCardsMatch } from '../../../services/CardService';
+import { useSelector } from 'react-redux';
+import Percentage from '../../components/Percentage/Precentage';
+import { GetCardsMatch } from '../../services/CardService';
 import ErrorPage from '../Error/Error';
 
 function Result() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const query = useSelector(state => state.form.querys);
-  const colors = [];
   const [cards, setCards] = useState();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     GetCardsMatch(query)
@@ -25,22 +22,11 @@ function Result() {
           const array = response.data;
           setCards(array);
         }
+        if (response.status === 400) {
+          setError(true);
+        }
       })
-      .catch((error) => {
-        console.log('error', error);
-        setError(error);
-      });
-
   }, []);
-
-  // const checkColors = cards.data.forEach(element => {
-  //   colors.push(element.color_identity);
-  //   // const result = colors.includes(color => color === 'W');
-  //   // return result;
-  // });
-
-  // const newArray = colors.join();
-  // const red = newArray.includes(color => color === 'W');
 
   return (
     <>
@@ -64,9 +50,9 @@ function Result() {
                   </Col>
                 </Row>
                 {query?.type === 'Creature' && (
-                  <Percentage />
+                  <Percentage cards={cards} />
                 )}
-                <Row margin={8}>
+                <Row margin={query?.type !== 'Creature' ? 8 : 3}>
                   <Button inverted onClick={() => navigate('/')}>Edit search</Button>
                 </Row>
               </ResultContainer>

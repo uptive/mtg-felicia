@@ -21,7 +21,16 @@ export const CardImage = styled.div`
   background-color: ${Colors.lightGray};
   height: 9rem;
   widht: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Image = styled.img`
+  height: 100%;
+  width: 100%;
   object-fit: cover;
+  
 `;
 
 export const CardType = styled.div`

@@ -16,18 +16,8 @@ export async function GetCardsMatch(query) {
     return response;
   }
   catch (error) {
-    console.log(error);
-    return error;
-  }
-}
-
-export async function GetCardImage(id) {
-  try {
-    const { data: response } = axios.get(base_URL + `${id}?format=image`)
-    return response;
-  }
-  catch (error) {
-    console.log(error);
+    console.log(error.response);
+    return error.response;
   }
 }
 

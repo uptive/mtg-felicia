@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Error from './routes/Error';
-import ResultPage from './components/Pages/Result/ResultPage';
+import ResultPage from './Pages/Result/ResultPage';
 
 const container = document.getElementById('root');
 const root = createRoot(container);

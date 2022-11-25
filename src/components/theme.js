@@ -48,6 +48,9 @@ export const Button = styled.button`
     border: ${Colors.darkGray} 1px solid;
   `}
   cursor: pointer;
+  ${props => props.disabled && `
+  background-color: ${Colors.lightGray}
+  `} 
 `;
 
 export const LoadingSpinner = styled.div`

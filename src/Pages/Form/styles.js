@@ -1,4 +1,4 @@
-import { Colors, Centered } from '../../theme';
+import { Colors, Centered } from '../../components/theme';
 import styled from 'styled-components';
 
 export const FormContainer = styled.div`
@@ -90,4 +90,11 @@ export const ImageButton = styled.button`
   &:hover {
     background-color: ${Colors.blue};
   } 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
+export const ErrorMsg = styled.div`
+  color: #FFFFFF;
+`

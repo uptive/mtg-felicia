@@ -1,41 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Colors } from '../../theme';
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
-import { GetCardImage } from '../../../services/CardService';
-
-const ImageContainer = styled.div`
-  width: 270px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative; 
-`;
-
-const ImageWrap = styled.div`
-  ${props => props.current ?
-    'display: block; transition-duratation: 1s;' :
-    'display: none; transition-duratation: 1s ease;'}
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-`;
-
-const ButtonsContainer = styled.div`
-  position: absolute;
-  bottom: -2rem;
-  display: flex;
-  align-items: center;
-  gap: 4rem;
-  cursor: pointer;
-`;
-
-const Label = styled.span`
-  color: ${Colors.white}; 
-`;
+import { ImageContainer, ImageWrap, Image, ButtonsContainer, Label } from './styles';
 
 function ImageCarousel({ cards }) {
   const length = cards?.length;

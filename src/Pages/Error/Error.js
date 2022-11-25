@@ -1,5 +1,5 @@
 import React from 'react';
-import { Centered, Colors, Container, Button, Heading } from '../../theme';
+import { Centered, Colors, Container, Button, Heading } from '../../components/theme';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,6 @@ const ErrorWrap = styled.div`
 
 function ErrorPage() {
   const navigate = useNavigate();
-  console.log('hello')
   return (
     <Container>
       <ErrorWrap>

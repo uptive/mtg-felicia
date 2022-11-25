@@ -1,7 +1,7 @@
 import React from 'react';
-import image from '../../../assets/loading.png';
+import image from '../../assets/loading.png';
 import styled from 'styled-components';
-import { Container } from '../../theme';
+import { Container } from '../../components/theme';
 
 const Image = styled.img`
 animation: spin 4s linear infinite;
