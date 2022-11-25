@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import cardsReducer from './CardReducer';
+import formReducer from './FormReducer';
 
 const reducers = combineReducers({
-  cards: cardsReducer,
+  form: formReducer,
 });
 
 export default reducers;
