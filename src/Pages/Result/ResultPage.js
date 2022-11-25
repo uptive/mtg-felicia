@@ -26,6 +26,10 @@ function Result() {
           setError(true);
         }
       })
+      .catch((error) => {
+        setError(true);
+        console.log(error)
+      })
   }, []);
 
   return (
@@ -53,7 +57,7 @@ function Result() {
                   <Percentage cards={cards} />
                 )}
                 <Row margin={query?.type !== 'Creature' ? 8 : 3}>
-                  <Button inverted onClick={() => navigate('/')}>Edit search</Button>
+                  <Button type='button' inverted onClick={() => navigate('/')}>Edit search</Button>
                 </Row>
               </ResultContainer>
             )}

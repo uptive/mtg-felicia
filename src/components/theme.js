@@ -2,13 +2,17 @@ import styled from 'styled-components';
 import '../index.css';
 
 export const Colors = {
-  white: '#FFFFFF',
   lightGray: '#F7F8F8',
   darkGray: '#CDCFCF',
   lightPurple: '#533c63',
-  blue: '#4A4E69',
   darkPurple: '#22223B',
+  hoverPurple: '#34134D',
   boxShadow: '#FF1111',
+  white: '#FFFFFF',
+  red: '#f55442',
+  blue: '#429ef5',
+  black: '#000000',
+  green: '#6dd164',
 };
 
 export const Centered = `
@@ -39,10 +43,10 @@ export const Button = styled.button`
   ${props => props.primary && `
     background-color: ${Colors.darkPurple};
     color: ${Colors.white};
+    `}
     &:hover {
-      background-color: ${Colors.blue};
+      background-color: ${props => props.primary ? Colors.hoverPurple : Colors.darkGray};
     }
-  `}
   ${props => props.inverted && `
     background-color: ${Colors.white};
     border: ${Colors.darkGray} 1px solid;
@@ -51,6 +55,9 @@ export const Button = styled.button`
   ${props => props.disabled && `
   background-color: ${Colors.lightGray}
   `} 
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const LoadingSpinner = styled.div`
