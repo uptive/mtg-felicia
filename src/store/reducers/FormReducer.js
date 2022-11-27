@@ -1,4 +1,4 @@
-import { SET_QUERY, ADD_CARDS, CLEAR_QUERY, SET_LOADING } from '../actionTypes';
+import { SET_QUERY, ADD_CARDS, CLEAR_QUERY, SET_LOADING, SET_ERROR } from '../actionTypes';
 
 const initialState = {
   cards: [],
@@ -12,12 +12,14 @@ const initialState = {
     toughness: '',
   },
   loading: false,
+  error: false,
 };
 
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_CARDS:
       return {
+        ...state,
         cards: action.payload,
       };
     case SET_QUERY:
@@ -29,6 +31,11 @@ const formReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: action.payload,
+      }
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       }
     case CLEAR_QUERY:
       return {

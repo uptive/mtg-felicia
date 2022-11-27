@@ -1,25 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CardWrapper, CardName, CardImage, CardType, CardPower, CardDesc, Image } from './styles';
-import { GetRandomCard } from '../../services/CardService';
-import { LoadingSpinner } from '../theme';
+import { useSelector } from 'react-redux';
 
 function Card({ card }) {
-  const [randomImage, setRandomImage] = useState();
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true)
-    GetRandomCard()
-      .then(data => {
-        const image = data.image_uris.art_crop;
-        setRandomImage(image);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      })
-  }, []);
+  const cards = useSelector(state => state.form.cards);
+  const randomImage = cards[Math.floor(Math.random() * cards.length)];
 
   return (
     <CardWrapper>
@@ -28,11 +13,7 @@ function Card({ card }) {
         <span>{card?.cost ? card.cost : 'Cost'}</span>
       </CardName>
       <CardImage>
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <Image template={card?.image === undefined} src={card?.image ? card.image : randomImage} />
-        )}
+        <Image template={card?.image === undefined} src={card?.image ? card?.image : randomImage?.image_uris?.art_crop} />
       </CardImage>
       <CardType>
         <span>{card?.type ? card.type : 'Type'}</span>

@@ -4,11 +4,10 @@ import { Container, Button, Heading } from '../../components/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearQuery } from '../../store/actionTypes';
 import { GetRandomCard } from '../../services/CardService';
-import { useNavigate } from 'react-router-dom';
 import { setQuery, setLoading } from '../../store/actionTypes/index';
 import { Col, Row, FormContainer, Label, ImageDiv, Image, ImageButton, ButtonContainer, ErrorMsg } from './styles';
 import './form.css';
-import LoadingPage from '../Loading/Loading';
+import LoadingPage from '../Loading/LoadingPage';
 import _ from 'lodash';
 
 const ImageChild = () => {
@@ -85,7 +84,6 @@ function SearchForm() {
   const query = useSelector(state => state.form.querys);
   const isLoading = useSelector(state => state.form.loading);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const typeOptions = [
     { id: 'creature', value: 'Creature' },
     { id: 'land', value: 'Land' },
@@ -112,11 +110,10 @@ function SearchForm() {
             }}
             onSubmit={(values, { setSubmitting }) => {
               dispatch(setLoading(true))
+              dispatch(setQuery(values));
               setTimeout(() => {
-                dispatch(setQuery(values));
                 dispatch(setLoading(false));
                 setSubmitting(false);
-                navigate('/result');
               }, 4000);
             }}
           >
