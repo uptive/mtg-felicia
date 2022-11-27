@@ -1,48 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from '../../components/Card/Card';
 import { Container, Button, Heading } from '../../components/theme';
 import { useNavigate } from 'react-router-dom';
 import ImageCarousel from '../../components/Carousel/ImageCarousel';
 import { ResultContainer, Label, CardWrap, Row, Col } from './styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Percentage from '../../components/Percentage/Precentage';
-import { GetCardsMatch } from '../../services/CardService';
-import ErrorPage from '../Error/Error';
-import { addCards } from '../../store/actionTypes';
+import ErrorPage from '../Error/ErrorPage';
 
 function Result() {
   const navigate = useNavigate();
   const query = useSelector(state => state.form.querys);
-  const [cards, setCards] = useState();
-  const [error, setError] = useState(false);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    GetCardsMatch(query)
-      .then((response) => {
-        if (response !== undefined) {
-          const array = response.data;
-          setCards(array);
-        }
-        if (response.status === 400) {
-          setError(true);
-        }
-      })
-      .catch((error) => {
-        setError(true);
-        console.log(error)
-      })
-  }, []);
-
-  useEffect(() => {
-    if (cards && cards.length > 0) {
-      dispatch(addCards(cards));
-    }
-  }, [cards]);
+  const cards = useSelector(state => state.form.cards);
+  const hasError = useSelector(state => state.form.error);
 
   return (
     <>
-      {error ?
+      {hasError === true ?
         (<ErrorPage />)
         : (
           <Container>
