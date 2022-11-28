@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
 import { useSelector } from 'react-redux';
-import { ImageContainer, ImageWrap, Image, ButtonsContainer, Label } from './styles';
+import { ImageContainer, ImageWrap, Image, ButtonsContainer, Label, ImageDiv } from './styles';
 
 function ImageCarousel({ }) {
   const [current, setCurrent] = useState(0);
@@ -36,7 +36,7 @@ function ImageCarousel({ }) {
 
   return (
     <ImageContainer>
-      <div>
+      <ImageDiv>
         {cardsArray.map((card, index) => {
           return (
             <ImageWrap current={index === current} key={card.id}>
@@ -44,7 +44,7 @@ function ImageCarousel({ }) {
             </ImageWrap>
           )
         })}
-      </div>
+      </ImageDiv>
       <ButtonsContainer>
         <FaCaretLeft onClick={() => prevImage()} />
         <Label>{current + 1}/{cardsArray?.length}</Label>
