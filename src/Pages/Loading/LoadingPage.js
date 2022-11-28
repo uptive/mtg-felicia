@@ -22,29 +22,27 @@ width: 20rem;
 `;
 
 function LoadingPage() {
-  // const [error, setError] = useState(false); //set global error
   const dispatch = useDispatch();
   const query = useSelector(state => state.form.querys);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     GetCardsMatch(query)
       .then((response) => {
         if (response !== undefined) {
           const array = response.data;
-          // setCards(array); 
           dispatch(addCards(array));
           dispatch(setError(false));
           navigate('/result');
         }
         if (response.status === 400) {
-          // setError(true);
+          dispatch(setError(true));
+        }
+        if (response.status === 404) {
           dispatch(setError(true));
         }
       })
       .catch((error) => {
-        // setError(true);
         dispatch(setError(true));
         console.log(error)
       })
