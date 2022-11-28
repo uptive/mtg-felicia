@@ -10,6 +10,10 @@ export const ImageContainer = styled.div`
   position: relative; 
 `;
 
+export const ImageDiv = styled.div`
+  height: 377px;
+`;
+
 export const ImageWrap = styled.div`
   ${props => props.current ?
     'display: block; transition-duratation: 1s;' :
