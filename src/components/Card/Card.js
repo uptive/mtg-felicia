@@ -20,7 +20,7 @@ function Card({ card }) {
       </CardType>
       <CardDesc>
         <span>{card?.desc ? card.desc : 'Description'}</span>
-        {card?.power || card?.toughness && (
+        {card?.power && (
           <CardPower>
             <span>{card?.power ? card.power : '-'}</span>
             /
